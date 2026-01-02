@@ -8,6 +8,7 @@ Strapi CMS for norhum-site project.
 
 - Docker & Docker Compose
 - Node.js 20+ (for local development without Docker)
+- pnpm 10.5.2+ (package manager)
 
 ### Local Development with Docker
 
@@ -37,8 +38,8 @@ Strapi CMS for norhum-site project.
 ### Local Development without Docker
 
 ```bash
-npm install
-npm run develop
+pnpm install
+pnpm run develop
 ```
 
 ## 📦 Project Structure

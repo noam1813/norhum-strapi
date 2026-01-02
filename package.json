@@ -33,8 +33,9 @@
   },
   "engines": {
     "node": ">=20.0.0 <=24.x.x",
-    "npm": ">=6.0.0"
+    "pnpm": ">=8.0.0"
   },
+  "packageManager": "pnpm@10.5.2",
   "strapi": {
     "uuid": "89fad691-9fab-45b7-9d03-62e86a4a96eb",
     "installId": "2179a81a2e92ad62fe14dc7b935e7b4d041d2f8c0e5e984d2e799b9b0226b7b3"
