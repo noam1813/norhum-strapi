@@ -1,5 +1,6 @@
 import type { Core } from '@strapi/strapi';
 import { permissionConfigs } from '../config/permissions';
+import { applyLayoutConfigurations } from './utils/layout-configurator';
 
 /**
  * パーミッションを自動設定する関数
@@ -99,5 +100,7 @@ export default {
   async bootstrap({ strapi }: { strapi: Core.Strapi }) {
     // パーミッションの自動設定を実行
     await setupPermissions(strapi);
+    // レイアウト設定を適用
+    await applyLayoutConfigurations(strapi);
   },
 };
