@@ -130,3 +130,9 @@ dist
 build
 .strapi-updater.json
 .strapi-cloud.json
+
+############################
+# PR Description
+############################
+
+PR_DESCRIPTION.mdPR_DESCRIPTION.md
