@@ -63,14 +63,25 @@ norhum-strapi/
 
 This project is configured to automatically deploy to Strapi Cloud when changes are pushed to the `main` branch.
 
+### GitHub Repository Setup
+
+1. **Create a new GitHub repository:**
+   ```bash
+   # On GitHub, create a new repository named "norhum-strapi"
+   # Then connect your local repository:
+   git remote add origin https://github.com/YOUR_USERNAME/norhum-strapi.git
+   git branch -M main
+   git push -u origin main
+   ```
+
 ### Strapi Cloud Setup
 
 1. Go to https://cloud.strapi.io
 2. Create a new project
-3. Connect this GitHub repository
-4. Select Free plan
-5. Base directory: `.` (root)
-6. Branch: `main`
+3. Connect this GitHub repository (`norhum-strapi`)
+4. Select **Free** plan
+5. **Base directory**: `.` (root)
+6. **Branch**: `main`
 
 Strapi Cloud will automatically:
 - Build and deploy on every push to `main`
