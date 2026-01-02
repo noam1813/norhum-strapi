@@ -18,5 +18,15 @@ export const permissionConfigs: PermissionConfig[] = [
     actions: ['find', 'findOne'],
     role: 'public',
   },
+  {
+    contentType: 'api::blog.blog',
+    actions: ['find', 'findOne'],
+    role: 'public',
+  },
+  {
+    contentType: 'api::blog-tag.blog-tag',
+    actions: ['find', 'findOne'],
+    role: 'public',
+  },
   // 将来的に他のコンテンツタイプを追加する場合はここに追加
 ];
