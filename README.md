@@ -28,7 +28,7 @@ Strapi CMS for norhum-site project.
 
 3. **Start Docker containers:**
    ```bash
-   docker compose -f docker-compose.dev.yml up --build
+   docker compose up --build
    ```
 
 4. **Access Strapi Admin:**
@@ -57,7 +57,7 @@ norhum-strapi/
 ├── docker/               # Docker files
 │   ├── Dockerfile        # Production Dockerfile
 │   └── Dockerfile.dev    # Development Dockerfile
-└── docker-compose.dev.yml # Docker Compose for local development
+└── docker-compose.yml # Docker Compose for local development
 ```
 
 ## 🚢 Deployment
