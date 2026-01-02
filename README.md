@@ -1,111 +1,111 @@
 # norhum-strapi
 
-Strapi CMS for norhum-site project.
+norhum-siteプロジェクト用のStrapi CMSです。
 
-## 🚀 Getting Started
+## 🚀 はじめに
 
-### Prerequisites
+### 必要な環境
 
 - Docker & Docker Compose
-- Node.js 20+ (for local development without Docker)
-- pnpm 10.5.2+ (package manager)
+- Node.js 20+ (Dockerを使わないローカル開発の場合)
+- pnpm 10.5.2+ (パッケージマネージャー)
 
-### Local Development with Docker
+### Dockerを使ったローカル開発
 
-1. **Copy environment variables:**
+1. **環境変数をコピー:**
    ```bash
    cp .env.example .env
    ```
 
-2. **Generate secrets:**
+2. **シークレットを生成:**
    ```bash
-   # Generate APP_KEYS (4 keys required)
+   # APP_KEYSを生成（4つのキーが必要）
    openssl rand -base64 32 | tr '\n' ',' && openssl rand -base64 32 | tr '\n' ',' && openssl rand -base64 32 | tr '\n' ',' && openssl rand -base64 32
    
-   # Generate other secrets
-   openssl rand -base64 32  # For API_TOKEN_SALT, ADMIN_JWT_SECRET, etc.
+   # その他のシークレットを生成
+   openssl rand -base64 32  # API_TOKEN_SALT, ADMIN_JWT_SECRET などに使用
    ```
 
-3. **Start Docker containers:**
+3. **Dockerコンテナを起動:**
    ```bash
    docker compose up --build
    ```
 
-4. **Access Strapi Admin:**
-   - Open http://localhost:3002/admin
-   - Create your first admin user
+4. **Strapi管理画面にアクセス:**
+   - http://localhost:3002/admin を開く
+   - 最初の管理者ユーザーを作成
 
-### Local Development without Docker
+### Dockerを使わないローカル開発
 
 ```bash
 pnpm install
 pnpm run develop
 ```
 
-## 📦 Project Structure
+## 📦 プロジェクト構成
 
 ```
 norhum-strapi/
-├── config/              # Strapi configuration files
-│   ├── database.ts      # Database configuration
-│   ├── server.ts         # Server configuration
+├── config/              # Strapi設定ファイル
+│   ├── database.ts      # データベース設定
+│   ├── server.ts         # サーバー設定
 │   └── env/
-│       └── production/   # Production-specific configs
+│       └── production/   # 本番環境用設定
 ├── src/
-│   ├── api/             # Content types
-│   └── admin/           # Admin panel customization
-├── docker/               # Docker files
-│   ├── Dockerfile        # Production Dockerfile
-│   └── Dockerfile.dev    # Development Dockerfile
-└── docker-compose.yml # Docker Compose for local development
+│   ├── api/             # コンテンツタイプ
+│   └── admin/           # 管理画面のカスタマイズ
+├── docker/               # Dockerファイル
+│   ├── Dockerfile        # 本番用Dockerfile
+│   └── Dockerfile.dev    # 開発用Dockerfile
+└── docker-compose.yml # ローカル開発用Docker Compose
 ```
 
-## 🚢 Deployment
+## 🚢 デプロイ
 
-This project is configured to automatically deploy to Strapi Cloud when changes are pushed to the `main` branch.
+このプロジェクトは、`main`ブランチに変更がプッシュされると自動的にStrapi Cloudにデプロイされるように設定されています。
 
-### GitHub Repository Setup
+### GitHubリポジトリのセットアップ
 
-1. **Create a new GitHub repository:**
+1. **新しいGitHubリポジトリを作成:**
    ```bash
-   # On GitHub, create a new repository named "norhum-strapi"
-   # Then connect your local repository:
+   # GitHub上で "norhum-strapi" という名前のリポジトリを作成
+   # その後、ローカルリポジトリを接続:
    git remote add origin https://github.com/YOUR_USERNAME/norhum-strapi.git
    git branch -M main
    git push -u origin main
    ```
 
-### Strapi Cloud Setup
+### Strapi Cloudのセットアップ
 
-1. Go to https://cloud.strapi.io
-2. Create a new project
-3. Connect this GitHub repository (`norhum-strapi`)
-4. Select **Free** plan
-5. **Base directory**: `.` (root)
+1. https://cloud.strapi.io にアクセス
+2. 新しいプロジェクトを作成
+3. このGitHubリポジトリ（`norhum-strapi`）を接続
+4. **Free**プランを選択
+5. **Base directory**: `.` (ルート)
 6. **Branch**: `main`
 
-Strapi Cloud will automatically:
-- Build and deploy on every push to `main`
-- Provide PostgreSQL database
-- Generate production secrets
+Strapi Cloudは自動的に以下を実行します:
+- `main`へのプッシュごとにビルドとデプロイ
+- PostgreSQLデータベースの提供
+- 本番環境用シークレットの生成
 
-## 🔗 Integration with norhum-site
+## 🔗 norhum-siteとの連携
 
-### Environment Variables (norhum-site)
+### 環境変数（norhum-site側）
 
-**Local development:**
+**ローカル開発:**
 ```bash
 NEXT_PUBLIC_STRAPI_URL=http://localhost:3002
 ```
 
-**Production (AWS Amplify):**
+**本番環境（AWS Amplify）:**
 ```bash
 NEXT_PUBLIC_STRAPI_URL=https://your-project.strapicloud.com
-STRAPI_API_TOKEN=<Generate in Strapi Admin > Settings > API Tokens>
+STRAPI_API_TOKEN=<Strapi管理画面 > 設定 > APIトークン で生成>
 ```
 
-## 📚 Learn more
+## 📚 参考資料
 
-- [Strapi Documentation](https://docs.strapi.io)
-- [Strapi Cloud Documentation](https://docs.strapi.io/cloud)
-- [Strapi Community](https://discord.strapi.io)
+- [Strapi ドキュメント](https://docs.strapi.io)
+- [Strapi Cloud ドキュメント](https://docs.strapi.io/cloud)
+- [Strapi コミュニティ](https://discord.strapi.io)
