@@ -1,4 +1,84 @@
-// import type { Core } from '@strapi/strapi';
+import type { Core } from '@strapi/strapi';
+import { permissionConfigs } from '../config/permissions';
+
+/**
+ * パーミッションを自動設定する関数
+ */
+async function setupPermissions(strapi: Core.Strapi) {
+  try {
+    for (const config of permissionConfigs) {
+      const role = await strapi
+        .query('plugin::users-permissions.role')
+        .findOne({ where: { type: config.role } });
+
+      if (!role) {
+        strapi.log.warn(`Role "${config.role}" not found, skipping permission setup`);
+        continue;
+      }
+
+      // 既存のパーミッションを取得
+      const existingPermissions = await strapi
+        .query('plugin::users-permissions.permission')
+        .findMany({
+          where: {
+            role: role.id,
+            action: {
+              $contains: config.contentType,
+            },
+          },
+        });
+
+      // 各アクションに対してパーミッションを設定
+      for (const action of config.actions) {
+        const actionName = `${config.contentType}.${action}`;
+        
+        // 既存のパーミッションを確認
+        const existingPermission = existingPermissions.find(
+          (p) => p.action === actionName
+        );
+
+        if (existingPermission) {
+          // 既存のパーミッションを有効化
+          if (!existingPermission.enabled) {
+            await strapi
+              .query('plugin::users-permissions.permission')
+              .update({
+                where: { id: existingPermission.id },
+                data: { enabled: true },
+              });
+            strapi.log.info(`Enabled permission: ${actionName} for role ${config.role}`);
+          }
+        } else {
+          // 新しいパーミッションを作成
+          try {
+            await strapi
+              .query('plugin::users-permissions.permission')
+              .create({
+                data: {
+                  action: actionName,
+                  role: role.id,
+                  enabled: true,
+                },
+              });
+            strapi.log.info(`Created permission: ${actionName} for role ${config.role}`);
+          } catch (createError: any) {
+            // パーミッションが既に存在する場合は無視
+            if (createError.message?.includes('unique') || createError.code === '23505') {
+              strapi.log.debug(`Permission ${actionName} already exists, skipping`);
+            } else {
+              throw createError;
+            }
+          }
+        }
+      }
+    }
+
+    strapi.log.info('Permissions auto-configuration completed');
+  } catch (error: any) {
+    strapi.log.error('Failed to auto-configure permissions:', error);
+    strapi.log.warn('Please configure permissions manually in the admin panel');
+  }
+}
 
 export default {
   /**
@@ -16,5 +96,8 @@ export default {
    * This gives you an opportunity to set up your data model,
    * run jobs, or perform some special logic.
    */
-  bootstrap(/* { strapi }: { strapi: Core.Strapi } */) {},
+  async bootstrap({ strapi }: { strapi: Core.Strapi }) {
+    // パーミッションの自動設定を実行
+    await setupPermissions(strapi);
+  },
 };

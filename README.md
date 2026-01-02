@@ -104,6 +104,29 @@ NEXT_PUBLIC_STRAPI_URL=https://your-project.strapicloud.com
 STRAPI_API_TOKEN=<Strapi管理画面 > 設定 > APIトークン で生成>
 ```
 
+## 📝 コンテンツタイプ
+
+### Work（制作実績）
+
+ポートフォリオ用の制作実績コンテンツタイプです。
+
+**フィールド構成:**
+- `title` (必須): タイトル
+- `slug` (必須): URLスラッグ
+- `description`: 説明文
+- `thumbnail`: 一覧用サムネイル画像
+- `detailImage`: 詳細ページ用画像
+- `content`: 詳細本文（Markdown形式・画像埋め込み可）
+- `tags`: タグ配列
+
+**APIパーミッション設定:**
+
+パーミッションは**自動的に設定**されます。Strapi起動時に`bootstrap`関数が実行され、`config/permissions.ts`で定義されたパーミッションが自動的に適用されます。
+
+手動で設定する必要はありませんが、必要に応じて`config/permissions.ts`を編集してパーミッション設定を変更できます。
+
+これにより、norhum-siteからWorkデータを取得できるようになります。
+
 ## 📚 参考資料
 
 - [Strapi ドキュメント](https://docs.strapi.io)
