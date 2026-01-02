@@ -32,7 +32,7 @@ Strapi CMS for norhum-site project.
    ```
 
 4. **Access Strapi Admin:**
-   - Open http://localhost:1337/admin
+   - Open http://localhost:3002/admin
    - Create your first admin user
 
 ### Local Development without Docker
@@ -95,7 +95,7 @@ Strapi Cloud will automatically:
 
 **Local development:**
 ```bash
-NEXT_PUBLIC_STRAPI_URL=http://localhost:1337
+NEXT_PUBLIC_STRAPI_URL=http://localhost:3002
 ```
 
 **Production (AWS Amplify):**
