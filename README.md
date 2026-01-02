@@ -1,61 +1,99 @@
-# 🚀 Getting started with Strapi
+# norhum-strapi
 
-Strapi comes with a full featured [Command Line Interface](https://docs.strapi.io/dev-docs/cli) (CLI) which lets you scaffold and manage your project in seconds.
+Strapi CMS for norhum-site project.
 
-### `develop`
+## 🚀 Getting Started
 
-Start your Strapi application with autoReload enabled. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-develop)
+### Prerequisites
 
-```
+- Docker & Docker Compose
+- Node.js 20+ (for local development without Docker)
+
+### Local Development with Docker
+
+1. **Copy environment variables:**
+   ```bash
+   cp .env.example .env
+   ```
+
+2. **Generate secrets:**
+   ```bash
+   # Generate APP_KEYS (4 keys required)
+   openssl rand -base64 32 | tr '\n' ',' && openssl rand -base64 32 | tr '\n' ',' && openssl rand -base64 32 | tr '\n' ',' && openssl rand -base64 32
+   
+   # Generate other secrets
+   openssl rand -base64 32  # For API_TOKEN_SALT, ADMIN_JWT_SECRET, etc.
+   ```
+
+3. **Start Docker containers:**
+   ```bash
+   docker compose -f docker-compose.dev.yml up --build
+   ```
+
+4. **Access Strapi Admin:**
+   - Open http://localhost:1337/admin
+   - Create your first admin user
+
+### Local Development without Docker
+
+```bash
+npm install
 npm run develop
-# or
-yarn develop
 ```
 
-### `start`
-
-Start your Strapi application with autoReload disabled. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-start)
+## 📦 Project Structure
 
 ```
-npm run start
-# or
-yarn start
+norhum-strapi/
+├── config/              # Strapi configuration files
+│   ├── database.ts      # Database configuration
+│   ├── server.ts         # Server configuration
+│   └── env/
+│       └── production/   # Production-specific configs
+├── src/
+│   ├── api/             # Content types
+│   └── admin/           # Admin panel customization
+├── docker/               # Docker files
+│   ├── Dockerfile        # Production Dockerfile
+│   └── Dockerfile.dev    # Development Dockerfile
+└── docker-compose.dev.yml # Docker Compose for local development
 ```
 
-### `build`
+## 🚢 Deployment
 
-Build your admin panel. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-build)
+This project is configured to automatically deploy to Strapi Cloud when changes are pushed to the `main` branch.
 
+### Strapi Cloud Setup
+
+1. Go to https://cloud.strapi.io
+2. Create a new project
+3. Connect this GitHub repository
+4. Select Free plan
+5. Base directory: `.` (root)
+6. Branch: `main`
+
+Strapi Cloud will automatically:
+- Build and deploy on every push to `main`
+- Provide PostgreSQL database
+- Generate production secrets
+
+## 🔗 Integration with norhum-site
+
+### Environment Variables (norhum-site)
+
+**Local development:**
+```bash
+NEXT_PUBLIC_STRAPI_URL=http://localhost:1337
 ```
-npm run build
-# or
-yarn build
-```
 
-## ⚙️ Deployment
-
-Strapi gives you many possible deployment options for your project including [Strapi Cloud](https://cloud.strapi.io). Browse the [deployment section of the documentation](https://docs.strapi.io/dev-docs/deployment) to find the best solution for your use case.
-
-```
-yarn strapi deploy
+**Production (AWS Amplify):**
+```bash
+NEXT_PUBLIC_STRAPI_URL=https://your-project.strapicloud.com
+STRAPI_API_TOKEN=<Generate in Strapi Admin > Settings > API Tokens>
 ```
 
 ## 📚 Learn more
 
-- [Resource center](https://strapi.io/resource-center) - Strapi resource center.
-- [Strapi documentation](https://docs.strapi.io) - Official Strapi documentation.
-- [Strapi tutorials](https://strapi.io/tutorials) - List of tutorials made by the core team and the community.
-- [Strapi blog](https://strapi.io/blog) - Official Strapi blog containing articles made by the Strapi team and the community.
-- [Changelog](https://strapi.io/changelog) - Find out about the Strapi product updates, new features and general improvements.
-
-Feel free to check out the [Strapi GitHub repository](https://github.com/strapi/strapi). Your feedback and contributions are welcome!
-
-## ✨ Community
-
-- [Discord](https://discord.strapi.io) - Come chat with the Strapi community including the core team.
-- [Forum](https://forum.strapi.io/) - Place to discuss, ask questions and find answers, show your Strapi project and get feedback or just talk with other Community members.
-- [Awesome Strapi](https://github.com/strapi/awesome-strapi) - A curated list of awesome things related to Strapi.
-
----
-
-<sub>🤫 Psst! [Strapi is hiring](https://strapi.io/careers).</sub>
+- [Strapi Documentation](https://docs.strapi.io)
+- [Strapi Cloud Documentation](https://docs.strapi.io/cloud)
+- [Strapi Community](https://discord.strapi.io)
