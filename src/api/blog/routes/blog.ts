@@ -5,6 +5,9 @@ export default {
       path: '/blogs',
       handler: 'blog.find',
       config: {
+        auth: {
+          scope: ['find'],
+        },
         policies: [],
         middlewares: [],
       },
@@ -14,6 +17,9 @@ export default {
       path: '/blogs/:id',
       handler: 'blog.findOne',
       config: {
+        auth: {
+          scope: ['findOne'],
+        },
         policies: [],
         middlewares: [],
       },

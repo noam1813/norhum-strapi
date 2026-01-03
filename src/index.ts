@@ -7,6 +7,7 @@ import { applyLayoutConfigurations } from './utils/layout-configurator';
  */
 async function setupPermissions(strapi: Core.Strapi) {
   try {
+    // permissionConfigsに基づいてパーミッションを設定
     for (const config of permissionConfigs) {
       const role = await strapi
         .query('plugin::users-permissions.role')
@@ -74,10 +75,69 @@ async function setupPermissions(strapi: Core.Strapi) {
       }
     }
 
+    // publicロールの既存パーミッションを無効化（API private化のため）
+    await disablePublicPermissions(strapi);
+
     strapi.log.info('Permissions auto-configuration completed');
   } catch (error: any) {
     strapi.log.error('Failed to auto-configure permissions:', error);
     strapi.log.warn('Please configure permissions manually in the admin panel');
+  }
+}
+
+/**
+ * publicロールの既存パーミッションを無効化する関数
+ * API private化のため、publicロールでのアクセスを拒否します
+ */
+async function disablePublicPermissions(strapi: Core.Strapi) {
+  try {
+    const publicRole = await strapi
+      .query('plugin::users-permissions.role')
+      .findOne({ where: { type: 'public' } });
+
+    if (!publicRole) {
+      strapi.log.warn('Public role not found, skipping public permission disable');
+      return;
+    }
+
+    // work, blog, blog-tagのpublicパーミッションを無効化
+    const contentTypesToDisable = [
+      'api::work.work',
+      'api::blog.blog',
+      'api::blog-tag.blog-tag',
+    ];
+
+    const actionsToDisable = ['find', 'findOne'];
+
+    for (const contentType of contentTypesToDisable) {
+      for (const action of actionsToDisable) {
+        const actionName = `${contentType}.${action}`;
+        
+        const existingPermission = await strapi
+          .query('plugin::users-permissions.permission')
+          .findOne({
+            where: {
+              role: publicRole.id,
+              action: actionName,
+            },
+          });
+
+        if (existingPermission && existingPermission.enabled) {
+          await strapi
+            .query('plugin::users-permissions.permission')
+            .update({
+              where: { id: existingPermission.id },
+              data: { enabled: false },
+            });
+          strapi.log.info(`Disabled public permission: ${actionName}`);
+        }
+      }
+    }
+
+    strapi.log.info('Public permissions disabled for API private mode');
+  } catch (error: any) {
+    strapi.log.error('Failed to disable public permissions:', error);
+    // エラーが発生しても続行（手動で設定可能）
   }
 }
 
