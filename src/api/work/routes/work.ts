@@ -5,6 +5,9 @@ export default {
       path: '/works',
       handler: 'work.find',
       config: {
+        auth: {
+          scope: ['find'],
+        },
         policies: [],
         middlewares: [],
       },
@@ -14,6 +17,9 @@ export default {
       path: '/works/:id',
       handler: 'work.findOne',
       config: {
+        auth: {
+          scope: ['findOne'],
+        },
         policies: [],
         middlewares: [],
       },
