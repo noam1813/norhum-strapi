@@ -104,6 +104,12 @@ NEXT_PUBLIC_STRAPI_URL=https://your-project.strapicloud.com
 STRAPI_API_TOKEN=<Strapi管理画面 > 設定 > APIトークン で生成>
 ```
 
+### 環境変数（Strapi側）
+
+**本番環境（Strapi Cloud）:**
+
+特に追加の環境変数設定は不要です。API TOKEN認証により、セキュリティが確保されています。
+
 ## 📝 コンテンツタイプ
 
 ### Work（制作実績）
