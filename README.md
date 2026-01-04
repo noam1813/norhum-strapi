@@ -108,18 +108,7 @@ STRAPI_API_TOKEN=<Strapi管理画面 > 設定 > APIトークン で生成>
 
 **本番環境（Strapi Cloud）:**
 
-CORS設定のため、以下の環境変数を設定してください：
-
-```bash
-STRAPI_CORS_ORIGINS=https://norhum.jp,https://alter.norhum.jp
-```
-
-**設定方法:**
-1. Strapi Cloudの管理画面にアクセス
-2. プロジェクト設定 > 環境変数 に移動
-3. `STRAPI_CORS_ORIGINS` を追加し、カンマ区切りで許可するオリジンを設定
-
-**注意:** ローカル開発環境では、`config/middlewares.ts`でデフォルトの`localhost`オリジンが許可されています。本番環境では必ず`STRAPI_CORS_ORIGINS`を設定してください。
+特に追加の環境変数設定は不要です。API TOKEN認証により、セキュリティが確保されています。
 
 ## 📝 コンテンツタイプ
 
